@@ -11,7 +11,7 @@ environments:
   - key: "BASE_URL"
     value: "[CI_CD_DOMAIN]"
   - key: "ADMIN_EMAIL"
-    value: "[ADMIN_EMAIL]"
+    value: "[EMAIL]"
   - key: "ADMIN_PASSWORD"
     value: "random_password"
   - key: "EMAIL_FROM_ADDRESS"
