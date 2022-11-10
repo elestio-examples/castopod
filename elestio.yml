@@ -10,16 +10,20 @@ ports:
 environments:
   - key: "BASE_URL"
     value: "[CI_CD_DOMAIN]"
-  - key: SOFTWARE_VERSION_TAG
-    value: "lts-jdk11"
-  - key: JENKINS_USERNAME
-    value: "root"
-  - key: JENKINS_PASSWORD
-    value: "random_password"
-  - key: "JENKINS_EMAIL"
-    value: "[EMAIL]"
+  - key: "ADMIN_EMAIL"
+    value: "[ADMIN_EMAIL]"
   - key: "ADMIN_PASSWORD"
     value: "random_password"
+  - key: "EMAIL_FROM_ADDRESS"
+    value: "[DOMAIN]@vm.elestio.app"
+  - key: "EMAIL_HOST"
+    value: "172.17.0.1"
+  - key: "EMAIL_PORT"
+    value: "25"
+  - key: "EMAIL_USER"
+    value: ""
+  - key: "EMAIL_PASSWORD"
+    value: ""
 
 config:
   runTime: "dockerCompose"
@@ -40,5 +44,5 @@ lifeCycleConfig:
 webUI:
   - url: "https://[CI_CD_DOMAIN]"
     label: "Castopod Admin"
-    login: "root"
+    login: "[ADMIN_EMAIL]"
     password: "[ADMIN_PASSWORD]"
