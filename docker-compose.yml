@@ -1,0 +1,52 @@
+version: "3.7"
+
+services:
+  app:
+    image: castopod/app:latest
+    volumes:
+      - ./castopod-media:/opt/castopod/public/media
+    environment:
+      MYSQL_DATABASE: castopod
+      MYSQL_USER: castopod
+      MYSQL_PASSWORD: changeme
+      CP_BASEURL: "https://${BASE_URL}"
+      CP_ANALYTICS_SALT: changeme
+      CP_CACHE_HANDLER: redis
+      CP_REDIS_HOST: redis
+    restart: always
+
+  web-server:
+    image: castopod/web-server:latest
+    volumes:
+      - ./castopod-media:/var/www/html/media
+    ports:
+      - 172.17.0.1:8989:80
+    restart: always
+
+  mariadb:
+    image: mariadb:10.5
+    volumes:
+      - ./castopod-db:/var/lib/mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: changeme
+      MYSQL_DATABASE: castopod
+      MYSQL_USER: castopod
+      MYSQL_PASSWORD: changeme
+    restart: always
+
+  redis:
+    image: redis:7.0-alpine
+    volumes:
+      - ./castopod-cache:/data
+
+  # this container is optional
+  # add this if you want to use the videoclips feature
+  ffmpeg:
+    image: castopod/video-clipper:latest
+    volumes:
+      - ./castopod-media:/opt/castopod/public/media
+    environment:
+      MYSQL_DATABASE: castopod
+      MYSQL_USER: castopod
+      MYSQL_PASSWORD: changeme
+    restart: always
