@@ -41,12 +41,12 @@ services:
 
   # this container is optional
   # add this if you want to use the videoclips feature
-  ffmpeg:
-    image: castopod/video-clipper:latest
-    volumes:
-      - ./castopod-media:/opt/castopod/public/media
-    environment:
-      MYSQL_DATABASE: castopod
-      MYSQL_USER: castopod
-      MYSQL_PASSWORD: changeme
-    restart: always
+  # ffmpeg:
+  #   image: castopod/video-clipper:latest
+  #   volumes:
+  #     - ./castopod-media:/opt/castopod/public/media
+  #   environment:
+  #     MYSQL_DATABASE: castopod
+  #     MYSQL_USER: castopod
+  #     MYSQL_PASSWORD: changeme
+  #   restart: always
