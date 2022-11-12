@@ -21,7 +21,7 @@ environments:
   - key: "EMAIL_PORT"
     value: "25"
   - key: "EMAIL_USER"
-    value: ""
+    value: "[DOMAIN]"
   - key: "EMAIL_PASSWORD"
     value: ""
 
