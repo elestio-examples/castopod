@@ -22,8 +22,10 @@ environments:
     value: "25"
   - key: "EMAIL_USER"
     value: "[DOMAIN]"
+  - key: "EMAIL_USERNAME"
+    value: "elestio"
   - key: "EMAIL_PASSWORD"
-    value: ""
+    value: "elestio"
 
 config:
   runTime: "dockerCompose"
