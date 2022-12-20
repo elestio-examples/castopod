@@ -59,4 +59,5 @@ services:
   #   restart: always
 
 volumes:
-castopod-media:
+  castopod-media:
+
