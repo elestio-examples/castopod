@@ -58,5 +58,5 @@ services:
   #     MYSQL_PASSWORD: changeme
   #   restart: always
 
-  volumes:
-  castopod-media:
+volumes:
+castopod-media:
