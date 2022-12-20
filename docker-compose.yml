@@ -5,7 +5,7 @@ services:
     image: castopod/app:latest
     user: 0:0
     volumes:
-      - ./castopod-media:/opt/castopod/public/media
+      - castopod-media:/opt/castopod/public/media
       - ./data:/castopod
     environment:
       MYSQL_DATABASE: castopod
@@ -57,3 +57,6 @@ services:
   #     MYSQL_USER: castopod
   #     MYSQL_PASSWORD: changeme
   #   restart: always
+
+  volumes:
+  castopod-media:
