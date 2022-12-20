@@ -6,7 +6,7 @@ mkdir -p ./castopod-media
 mkdir -p ./castopod-db
 mkdir -p ./castopod-cache
 
-chown -R 1000:1000 ./data
-chown -R 1000:1000 ./castopod-media
-chown -R 1000:1000 ./castopod-db
-chown -R 1000:1000 ./castopod-cache
+chown -R 544:544 ./data
+chown -R 544:544 ./castopod-media
+chown -R 544:544 ./castopod-db
+chown -R 544:544 ./castopod-cache
