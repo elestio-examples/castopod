@@ -3,6 +3,7 @@ version: "3.7"
 services:
   app:
     image: castopod/app:latest
+    user: 0:0
     volumes:
       - ./castopod-media:/opt/castopod/public/media
       - ./data:/castopod
