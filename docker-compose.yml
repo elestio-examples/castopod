@@ -25,7 +25,7 @@ services:
   web-server:
     image: castopod/web-server:latest
     volumes:
-      - ./castopod-media:/var/www/html/media
+      - castopod-media:/var/www/html/media
     ports:
       - 172.17.0.1:8989:80
     restart: always
@@ -60,4 +60,9 @@ services:
 
 volumes:
   castopod-media:
+    driver: local
+    driver_opts:
+     type: none
+     device: ${PWD}/data
+     o: bind
 
