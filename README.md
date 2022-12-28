@@ -18,7 +18,9 @@ You can can open Castopod UI here:
 
 # Installation
 
-For your first connection, you must first create a user.
+For your first connection, you must first create a user in this URL
+
+        https://[CI_CD_DOMAIN]/cp-install
 
 # Emails
 
