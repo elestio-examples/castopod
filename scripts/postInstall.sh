@@ -2,7 +2,7 @@ set env vars
 set -o allexport; source .env; set +o allexport;
 
 echo "Waiting...";
-sleep 10s;
+sleep 20s;
 
 target=$(docker-compose port web-server 80)
 
