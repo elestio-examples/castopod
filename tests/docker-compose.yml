@@ -1,0 +1,81 @@
+version: "3.7"
+
+services:
+  app:
+    image: elestio4test/castopod-app:latest
+    user: 0:0
+    container_name: castopod_app_1
+    volumes:
+      - castopod-media:/opt/castopod/public
+      - ./data:/castopod
+    environment:
+      MYSQL_DATABASE: castopod
+      MYSQL_USER: castopod
+      MYSQL_PASSWORD: changeme
+      CP_BASEURL: "${BASE_URL}"
+      CP_ANALYTICS_SALT: changeme
+
+      CP_CACHE_HANDLER: redis
+      CP_REDIS_HOST: redis
+      CP_EMAIL_SMTP_HOST: ${CP_EMAIL_SMTP_HOST}
+      CP_EMAIL_FROM: ${CP_EMAIL_FROM}
+      CP_EMAIL_SMTP_USERNAME: ${CP_EMAIL_SMTP_USERNAME}
+      CP_EMAIL_SMTP_PASSWORD: ${CP_EMAIL_SMTP_PASSWORD}
+      CP_EMAIL_SMTP_PORT: ${CP_EMAIL_SMTP_PORT}
+      CP_EMAIL_SMTP_CRYPTO: ${CP_EMAIL_SMTP_CRYPTO}
+    restart: always
+    networks:
+      - castopod-app
+      - castopod-db
+  web-server:
+    image: elestio4test/web-server:latest
+    container_name: castopod_web-server_1
+    volumes:
+      -  castopod-media:/var/www/html/media
+    ports:
+      - 127.0.0.1:8989:80
+    restart: always
+    networks:
+      - castopod-app
+
+  mariadb:
+    image: mariadb:10.5
+    volumes:
+      - ./castopod-db:/var/lib/mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: changeme
+      MYSQL_DATABASE: castopod
+      MYSQL_USER: castopod
+      MYSQL_PASSWORD: changeme
+    restart: always
+    networks:
+      - castopod-db
+  redis:
+    image: redis:7.0-alpine
+    volumes:
+      - ./castopod-cache:/data
+    networks:
+      - castopod-app
+
+  # this container is optional
+  # add this if you want to use the videoclips feature
+  # ffmpeg:
+  #   image: castopod/video-clipper:latest
+  #   volumes:
+  #     - ./castopod-media:/opt/castopod/public/media
+  #   environment:
+  #     MYSQL_DATABASE: castopod
+  #     MYSQL_USER: castopod
+  #     MYSQL_PASSWORD: changeme
+  #   restart: always
+
+volumes:
+  castopod-media:
+    driver: local
+    driver_opts:
+     type: none
+     device: ${PWD}/data
+     o: bind
+networks:
+  castopod-app:
+  castopod-db:
