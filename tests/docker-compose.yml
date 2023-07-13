@@ -2,7 +2,7 @@ version: "3.3"
 
 services:
   app:
-    image: elestio4test/castopod:latest
+    image: elestio4test/castopodapp:latest
     user: 0:0
     volumes:
       - castopod-media:/opt/castopod/public/media
