@@ -31,7 +31,7 @@ services:
       - 172.17.0.1:8989:80
     restart: always
 
-  mysqlb:
+  mysqldb:
     image: elestio/mysql:latest
     volumes:
       - ./castopod-db:/var/lib/mysql
