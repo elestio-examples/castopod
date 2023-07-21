@@ -31,8 +31,8 @@ services:
       - 172.17.0.1:8989:80
     restart: always
 
-  mariadb:
-    image: mariadb:10.5
+  mysqlb:
+    image: elestio/mysql:latest
     volumes:
       - ./castopod-db:/var/lib/mysql
     environment:
