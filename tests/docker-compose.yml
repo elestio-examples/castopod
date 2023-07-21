@@ -3,67 +3,52 @@ version: "3.3"
 services:
   app:
     image: elestio4test/castopod:latest
-    user: 0:0
+    container_name: "castopod-app"
     volumes:
-      - castopod-media:/opt/castopod/public/media
-      - ./data:/castopod
+      - castopod-media:/var/www/castopod/public/media
     environment:
       MYSQL_DATABASE: castopod
       MYSQL_USER: castopod
-      MYSQL_PASSWORD: changeme
+      MYSQL_PASSWORD: ${ADMIN_PASSWORD}
       CP_BASEURL: "https://${BASE_URL}"
-      CP_ANALYTICS_SALT: changeme
+      CP_ANALYTICS_SALT: castopod
       CP_CACHE_HANDLER: redis
       CP_REDIS_HOST: redis
-      CP_EMAIL_SMTP_HOST: ${CP_EMAIL_SMTP_HOST}
-      CP_EMAIL_FROM: ${CP_EMAIL_FROM}
-      CP_EMAIL_SMTP_USERNAME: ${CP_EMAIL_SMTP_USERNAME}
-      CP_EMAIL_SMTP_PASSWORD: ${CP_EMAIL_SMTP_PASSWORD}
-      CP_EMAIL_SMTP_PORT: ${CP_EMAIL_SMTP_PORT}
-      CP_EMAIL_SMTP_CRYPTO: ${CP_EMAIL_SMTP_CRYPTO}
-    restart: always
-
-  web-server:
-    image: castopod/web-server:latest
-    volumes:
-      - castopod-media:/var/www/html/media
+    networks:
+      - castopod-app
+      - castopod-db
     ports:
-      - 172.17.0.1:8989:80
-    restart: always
+      - 8000:8000
+    restart: unless-stopped
 
-  mysqldb:
-    image: elestio/mysql:latest
+  mariadb:
+    image: mariadb:10.5
+    container_name: "castopod-mariadb"
+    networks:
+      - castopod-db
     volumes:
-      - ./castopod-db:/var/lib/mysql
+      - castopod-db:/var/lib/mysql
     environment:
-      MYSQL_ROOT_PASSWORD: changeme
+      MYSQL_ROOT_PASSWORD: ${ADMIN_PASSWORD}
       MYSQL_DATABASE: castopod
       MYSQL_USER: castopod
-      MYSQL_PASSWORD: changeme
-    restart: always
+      MYSQL_PASSWORD: ${ADMIN_PASSWORD}
+    restart: unless-stopped
 
   redis:
     image: redis:7.0-alpine
+    container_name: "castopod-redis"
     volumes:
-      - ./castopod-cache:/data
-
-  # this container is optional
-  # add this if you want to use the videoclips feature
-  # ffmpeg:
-  #   image: castopod/video-clipper:latest
-  #   volumes:
-  #     - ./castopod-media:/opt/castopod/public/media
-  #   environment:
-  #     MYSQL_DATABASE: castopod
-  #     MYSQL_USER: castopod
-  #     MYSQL_PASSWORD: changeme
-  #   restart: always
+      - castopod-cache:/data
+    networks:
+      - castopod-app
 
 volumes:
   castopod-media:
-    driver: local
-    driver_opts:
-     type: none
-     device: ${PWD}/data
-     o: bind
+  castopod-db:
+  castopod-cache:
+
+networks:
+  castopod-app:
+  castopod-db:
 
