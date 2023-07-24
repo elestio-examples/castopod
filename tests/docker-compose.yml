@@ -3,54 +3,42 @@ version: "3.3"
 services:
   app:
     image: elestio4test/castopod:latest
-    container_name: "castopod-app"
-    volumes:
-      - castopod-media:/var/www/castopod/public/media
     environment:
-      MYSQL_DATABASE: castopod1
-      MYSQL_USER: castopod1
-      MYSQL_PASSWORD: changeme1
-      CP_BASEURL: "http://172.17.0.1:8000"
-      CP_ANALYTICS_SALT: changeme20001
+      MYSQL_DATABASE: castopod
+      MYSQL_USER: castopod
+      MYSQL_PASSWORD: changeme
+      CP_BASEURL: "http://172.17.0.1"
+      CP_ANALYTICS_SALT: changeme
       CP_CACHE_HANDLER: redis
       CP_REDIS_HOST: redis
       CP_DISABLE_HTTPS: 1
-      PUID: 1000
-      PGID: 1000
     networks:
       - castopod-app
       - castopod-db
     ports:
-      - 8000:8000
-    restart: unless-stopped
+      - 172.17.0.1:8989:8000
+    restart: always
 
-  mariadb:
-    image: mariadb:10.5
-    container_name: "castopod-mariadb"
+  mysqldb:
+    image: elestio/mysql:latest
     networks:
       - castopod-db
     volumes:
-      - castopod-db:/var/lib/mysql
+     - ./castopod-db:/var/lib/mysql
     environment:
       MYSQL_ROOT_PASSWORD: changeme
       MYSQL_DATABASE: castopod
       MYSQL_USER: castopod
       MYSQL_PASSWORD: changeme
-    restart: unless-stopped
+    restart: always
 
   redis:
     image: redis:7.0-alpine
-    container_name: "castopod-redis"
-    volumes:
-      - castopod-cache:/data
     networks:
       - castopod-app
-
-volumes:
-  castopod-media:
-  castopod-db:
-  castopod-cache:
 
 networks:
   castopod-app:
   castopod-db:
+
+
