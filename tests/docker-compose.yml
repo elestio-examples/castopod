@@ -1,5 +1,4 @@
 version: "3.3"
-
 services:
   app:
     image: elestio4test/castopod:latest
