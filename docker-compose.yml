@@ -2,33 +2,26 @@ version: "3.7"
 
 services:
   app:
-    image: castopod/app:latest
-    user: 0:0
+    image: castopod/castopod:latest
     volumes:
-      - castopod-media:/opt/castopod/public/media
-      - ./data:/castopod
+      - castopod-media:/var/www/castopod/public/media
     environment:
       MYSQL_DATABASE: castopod
       MYSQL_USER: castopod
-      MYSQL_PASSWORD: changeme
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
       CP_BASEURL: "https://${BASE_URL}"
-      CP_ANALYTICS_SALT: changeme
+      CP_ANALYTICS_SALT: ${CP_ANALYTICS_SALT}
       CP_CACHE_HANDLER: redis
       CP_REDIS_HOST: redis
+      CP_REDIS_PASSWORD: ${CP_REDIS_PASSWORD}
       CP_EMAIL_SMTP_HOST: ${CP_EMAIL_SMTP_HOST}
       CP_EMAIL_FROM: ${CP_EMAIL_FROM}
       CP_EMAIL_SMTP_USERNAME: ${CP_EMAIL_SMTP_USERNAME}
       CP_EMAIL_SMTP_PASSWORD: ${CP_EMAIL_SMTP_PASSWORD}
       CP_EMAIL_SMTP_PORT: ${CP_EMAIL_SMTP_PORT}
       CP_EMAIL_SMTP_CRYPTO: ${CP_EMAIL_SMTP_CRYPTO}
-    restart: always
-
-  web-server:
-    image: castopod/web-server:latest
-    volumes:
-      - castopod-media:/var/www/html/media
     ports:
-      - 172.17.0.1:8989:80
+      - 172.17.0.1:8989:8000
     restart: always
 
   mariadb:
@@ -36,34 +29,40 @@ services:
     volumes:
       - ./castopod-db:/var/lib/mysql
     environment:
-      MYSQL_ROOT_PASSWORD: changeme
+      MYSQL_ROOT_PASSWORD: ${MYSQL_PASSWORD}
       MYSQL_DATABASE: castopod
       MYSQL_USER: castopod
-      MYSQL_PASSWORD: changeme
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
     restart: always
 
   redis:
     image: redis:7.0-alpine
     volumes:
       - ./castopod-cache:/data
+    command: --requirepass ${CP_REDIS_PASSWORD}
 
-  # this container is optional
-  # add this if you want to use the videoclips feature
-  # ffmpeg:
-  #   image: castopod/video-clipper:latest
-  #   volumes:
-  #     - ./castopod-media:/opt/castopod/public/media
-  #   environment:
-  #     MYSQL_DATABASE: castopod
-  #     MYSQL_USER: castopod
-  #     MYSQL_PASSWORD: changeme
-  #   restart: always
+  pma:
+    image: elestio/phpmyadmin:latest
+    restart: always
+    links:
+      - mariadb:mariadb
+    ports:
+      - "172.17.0.1:25581:80"
+    environment:
+      PMA_HOST: mariadb
+      PMA_PORT: 3306
+      PMA_USER: root
+      PMA_PASSWORD: ${MYSQL_PASSWORD}
+      UPLOAD_LIMIT: 500M
+      MYSQL_USERNAME: root
+      MYSQL_ROOT_PASSWORD: ${MYSQL_PASSWORD}
+    depends_on:
+      - mariadb
 
 volumes:
   castopod-media:
     driver: local
     driver_opts:
-     type: none
-     device: ${PWD}/data
-     o: bind
-
+      type: none
+      device: ${PWD}/data
+      o: bind

@@ -7,6 +7,17 @@ ports:
     public: true
     path: "/"
     isAuth: false
+  - protocol: "HTTPS"
+    targetProtocol: "HTTP"
+    listeningPort: "25581"
+    targetPort: "25581"
+    targetIP: "172.17.0.1"
+    public: true
+    path: "/"
+    isAuth: true
+    login: "root"
+    password: "random_password"
+    loginTitle: "PHPMyAdmin"
 environments:
   - key: "BASE_URL"
     value: "[CI_CD_DOMAIN]"
@@ -14,12 +25,12 @@ environments:
     value: "[EMAIL]"
   - key: "ADMIN_PASSWORD"
     value: "random_password"
-  - key: "CP_EMAIL_SMTP_HOST"
-    value: ""
-  - key: "CP_EMAIL_SMTP_PORT"
-    value: ""
-  - key: "CP_EMAIL_FROM"
-    value: ""
+  - key: "MYSQL_PASSWORD"
+    value: "random_password"
+  - key: "CP_ANALYTICS_SALT"
+    value: "random_password-random_password"
+  - key: "CP_REDIS_PASSWORD"
+    value: "random_password"
   - key: "CP_EMAIL_SMTP_USERNAME"
     value: ""
   - key: "CP_EMAIL_SMTP_PASSWORD"
