@@ -2,7 +2,7 @@ version: "3.7"
 
 services:
   app:
-    image: castopod/castopod:latest
+    image: castopod/castopod:${SOFTWARE_VERSION_TAG}
     volumes:
       - castopod-media:/var/www/castopod/public/media
     environment:
