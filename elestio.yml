@@ -19,6 +19,8 @@ ports:
     password: "random_password"
     loginTitle: "PHPMyAdmin"
 environments:
+  - key: "SOFTWARE_VERSION_TAG"
+    value: "latest"
   - key: "BASE_URL"
     value: "[CI_CD_DOMAIN]"
   - key: "ADMIN_EMAIL"
