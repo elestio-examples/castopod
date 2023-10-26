@@ -16,6 +16,12 @@ You can open Castopod UI here:
     Login: [ADMIN_EMAIL]
     password: [ADMIN_PASSWORD]
 
+You can open PHPMyAdmin here:
+
+    URL: https://[CI_CD_DOMAIN]:5974
+    username: root
+    password: [ADMIN_PASSWORD]
+
 # Installation
 
 For your first connection, you must first create a user in this URL
