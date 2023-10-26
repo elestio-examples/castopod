@@ -25,7 +25,7 @@ services:
     restart: always
 
   mariadb:
-    image: mariadb:10.5
+    image: elestio/mariadb:10.5
     volumes:
       - ./castopod-db:/var/lib/mysql
     environment:
@@ -36,7 +36,7 @@ services:
     restart: always
 
   redis:
-    image: redis:7.0-alpine
+    image: elestio/redis:7.0
     volumes:
       - ./castopod-cache:/data
     command: --requirepass ${CP_REDIS_PASSWORD}
