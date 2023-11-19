@@ -37,6 +37,7 @@ services:
 
   redis:
     image: elestio/redis:7.0
+    restart: always
     volumes:
       - ./castopod-cache:/data
     command: --requirepass ${CP_REDIS_PASSWORD}
