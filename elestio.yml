@@ -59,5 +59,3 @@ lifeCycleConfig:
 webUI:
   - url: "https://[CI_CD_DOMAIN]/cp-auth/login"
     label: "Castopod Admin"
-    login: "[ADMIN_EMAIL]"
-    password: "[ADMIN_PASSWORD]"

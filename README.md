@@ -13,8 +13,6 @@ Deploy Castopod server with CI/CD on Elestio
 You can open Castopod UI here:
 
     URL: https://[CI_CD_DOMAIN]
-    Login: [ADMIN_EMAIL]
-    password: [ADMIN_PASSWORD]
 
 You can open PHPMyAdmin here:
 
